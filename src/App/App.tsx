@@ -7,14 +7,18 @@ import {Profile} from '../Components/Profile/Profile';
 import {PasswordReset} from '../Components/PasswordReset/PasswordReset';
 import {NewPassword} from '../Components/NewPassword/NewPassword';
 import SuperComponents from "../SuperComponents/SuperComponents";
+import {Error404} from "../Components/Pages/Error404";
+import Header from "../Components/Header/Heder";
 
 const App = () => {
     return (
         <div className="App">
+            <Header/>
             <Route path={'/login'} render={() => <Login />}/>
             <Route path={'/registration'} render={() => <Registration />}/>
             <Route path={'/profile'} render={() => <Profile />}/>
-            <Route path={'/404'} render={() => <h1 style={{textAlign: "center"}}>404.Page not found</h1>}/>
+            <Route path={'/404'} render={() => <Error404 />}/>
+            {/*<Route render={() => <Error404/>}/>*/}
             <Route path={'/passwordReset'} render={() => <PasswordReset />}/>
             <Route path={'/newPassword'} render={() => <NewPassword />}/>
             <Route path={'/test'} render={() => <SuperComponents />}/>

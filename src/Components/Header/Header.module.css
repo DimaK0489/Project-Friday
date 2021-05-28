@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    background-color: #4da02a;
+}
+.loginBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+
