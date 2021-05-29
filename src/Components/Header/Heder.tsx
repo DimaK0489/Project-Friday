@@ -10,10 +10,10 @@ function Header(props: HeaderPropsType) {
             <div className={style.loginBlock}>
                 <NavLink to={"/login"}>Login</NavLink>
                 <NavLink to={"/registration"}>Registration</NavLink>
-                <NavLink to={"/profile"}>Profile</NavLink>
-                <NavLink to={"/404"}>Error404</NavLink>
                 <NavLink to={"/passwordReset"}>PasswordReset</NavLink>
                 <NavLink to={"/newPassword"}>NewPassword</NavLink>
+                <NavLink to={"/profile"}>Profile</NavLink>
+                <NavLink to={"/404"}>Error404</NavLink>
                 <NavLink to={"/test"}>SuperComponents</NavLink>
             </div>
         </header>

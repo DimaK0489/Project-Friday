@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 
+//types
 export type ActionType = ReturnType<typeof test2>
 
 let initialState = {}

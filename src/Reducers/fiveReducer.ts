@@ -1,11 +1,11 @@
 import {Dispatch} from "redux";
 
 //types
-export type ActionType = ReturnType<typeof test>
+export type ActionType = ReturnType<typeof test5>
 
 let initialState = {}
 
-export const oneReducer = (state = initialState, action: ActionType) => {
+export const fiveReducer = (state = initialState, action: ActionType) => {
     switch (action.type) {
         case "":
             return {...state}
@@ -16,7 +16,7 @@ export const oneReducer = (state = initialState, action: ActionType) => {
 }
 
 //action
-export const test = () =>
+export const test5 = () =>
     ({type: ""} as const)
 
 //Thunks
