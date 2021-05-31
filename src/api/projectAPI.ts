@@ -1,25 +1,30 @@
 import axios from "axios"
 
 //Types
-
+export type LoginType = {
+    email: string,
+    password: string,
+    rememberMe?: boolean
+}
+export type ResponseType = {
+    id: string
+    email: string
+    name: string
+    avatar?: string
+    publicCardPacksCount: number
+}
 
 // Settings
 const instance = axios.create({
-    baseURL: "https://",
+    baseURL: "https://neko-back.herokuapp.com/2.0",
+    /*baseURL: "http://localhost:7542/2.0/",*/
     withCredentials: true,
-    headers: {
-        'API-KEY': ''
-    }
 })
 
 // API
 export const projectAPI = {
-    getTest() {
-        return instance.get("")
+    login(data: LoginType) {
+        return instance.post<ResponseType>("/auth/login", data)
     }
 }
-export const authAPI = {
-    login() {
-        return instance.post("auth/login")
-    }
-}
+

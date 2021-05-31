@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 import {Login} from "../Components/Login/Login";
 import {Registration} from '../Components/Registration/Registration';
@@ -10,17 +10,30 @@ import SuperComponents from "../SuperComponents/SuperComponents";
 import {Error404} from "../Components/Pages/Error404";
 import Header from "../Components/Header/Heder";
 
+export const PATH = {
+    login: '/login',
+    registration: '/registration',
+    profile: '/profile',
+    Error404: '/404',
+    passwordReset: '/passwordReset',
+    newPassword: '/newPassword',
+    test: '/test'
+}
+
 const App = () => {
     return (
         <div className="App">
             <Header/>
-            <Route path={'/login'} render={() => <Login />}/>
-            <Route path={'/registration'} render={() => <Registration />}/>
-            <Route path={'/passwordReset'} render={() => <PasswordReset />}/>
-            <Route path={'/newPassword'} render={() => <NewPassword />}/>
-            <Route path={'/profile'} render={() => <Profile />}/>
-            <Route path={'/404'} render={() => <Error404 />}/>
-            <Route path={'/test'} render={() => <SuperComponents />}/>
+            <Switch>
+                <Route path={PATH.login} render={() => <Login/>}/>
+                <Route path={PATH.registration} render={() => <Registration/>}/>
+                <Route path={PATH.passwordReset} render={() => <PasswordReset/>}/>
+                <Route path={PATH.newPassword} render={() => <NewPassword/>}/>
+                <Route path={PATH.profile} render={() => <Profile/>}/>
+                <Route path={PATH.Error404} render={() => <Error404/>}/>
+                <Redirect from={'*'} to={'/404'}/>
+                <Route path={PATH.test} render={() => <SuperComponents/>}/>
+            </Switch>
         </div>
     );
 }
