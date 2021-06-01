@@ -1,18 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from "redux-thunk";
 import {loginReducer} from "../Reducers/LoginReducer";
-import {twoReducer} from '../Reducers/twoReducer';
-import {threeReducer} from "../Reducers/threeReducer";
-import {fourReducer} from "../Reducers/fourReducer";
-import {fiveReducer} from "../Reducers/fiveReducer";
+import {registrationReducer} from "../Reducers/registrationReducer";
 
 
 const rootReducer = combineReducers({
     login: loginReducer,
-    "two": twoReducer,
-    "three": threeReducer,
-    "four": fourReducer,
-    "five": fiveReducer,
+    registration: registrationReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

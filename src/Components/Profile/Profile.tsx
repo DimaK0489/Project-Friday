@@ -1,5 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import {AppRootStateType} from "../../App/Store";
 
 export const Profile = () => {
-    return <h3>Profile</h3>
+    const userData = useSelector<AppRootStateType>(state => state.login.dataLogin)
+    return (
+        <div className="Profile">
+            {JSON.stringify(userData)}
+        </div>
+    );
 }

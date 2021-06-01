@@ -1,18 +1,31 @@
 import {Dispatch} from "redux";
-import {LoginType, projectAPI} from "../api/projectAPI";
+import {LoginType, projectAPI, ResponseType} from "../api/projectAPI";
+import {setResponseError} from "./registrationReducer";
 
 
 export const initialState = {
     isLoggedIn: false,
-    isInitialized: false
+    dataLogin: {
+        _id: "",
+        email: "",
+        name: "",
+        avatar: null as string | null,
+        publicCardPacksCount: 0,
+        created: "",
+        updated: "",
+        isAdmin: false,
+        verified: false,
+        rememberMe: false,
+        error: ""
+    }
 }
 
 export const loginReducer = (state: InitialStateLoginType = initialState, action: ActionType): InitialStateLoginType => {
     switch (action.type) {
         case "LOGIN/SET-LOGIN-DATA":
             return {...state, isLoggedIn: action.value}
-        case "LOGIN/INITIALIZED-APP":
-            return {...state, isInitialized: action.isInitialized}
+        case "LOGIN/SET-DATA":
+            return {...state, dataLogin: action.data}
         default:
             return state
     }
@@ -21,22 +34,39 @@ export const loginReducer = (state: InitialStateLoginType = initialState, action
 //action
 export const setLoginDataAC = (value: boolean) =>
     ({type: "LOGIN/SET-LOGIN-DATA", value} as const)
-export const setInitializeAppAC = (isInitialized: boolean) =>
-    ({type: "LOGIN/INITIALIZED-APP", isInitialized} as const)
-
+export const setDataResponseAC = (data: ResponseType) =>
+    ({type: "LOGIN/SET-DATA", data} as const)
 
 //Thunks
-export const loginTC = (data: LoginType) => (dispatch: Dispatch<ActionType>) => {
+export const loginTC = (data: LoginType) => (dispatch: Dispatch) => {
     projectAPI.login(data)
         .then((res) => {
             dispatch(setLoginDataAC(true))
+            dispatch(setDataResponseAC(res.data))
         })
-
+        .catch((error: ErrorDataType) => {
+            dispatch(setResponseError(error.response.data.error))
+        })
 }
 
 //Types
 export type ActionType =
     ReturnType<typeof setLoginDataAC>
-    | ReturnType<typeof setInitializeAppAC>
+    | ReturnType<typeof setDataResponseAC>
 
 export type InitialStateLoginType = typeof initialState
+
+type ErrorDataType = {
+    response: {
+        data: ErrorRegistration
+    }
+}
+
+type ErrorRegistration = {
+    emailRegExp: {},
+    error: string
+    in: string
+    isEmailValid: boolean
+    isPassValid: boolean
+    passwordRegExp: string
+}

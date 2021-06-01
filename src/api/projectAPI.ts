@@ -7,11 +7,21 @@ export type LoginType = {
     rememberMe?: boolean
 }
 export type ResponseType = {
-    id: string
+    _id: string
     email: string
     name: string
-    avatar?: string
+    avatar: string | null
     publicCardPacksCount: number
+    created: string;
+    updated: string;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+    error: string;
+}
+export type RegistrationDataType = {
+    email: string
+    password: string
 }
 
 // Settings
@@ -25,6 +35,9 @@ const instance = axios.create({
 export const projectAPI = {
     login(data: LoginType) {
         return instance.post<ResponseType>("/auth/login", data)
+    },
+    registration(data: RegistrationDataType) {
+        return instance.post('auth/register', data)
     }
 }
 
