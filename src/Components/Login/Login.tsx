@@ -9,16 +9,23 @@ export const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [rememberMe, setRememberMe] = useState(false)
+    const [error, setError] = useState("")
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const responseError = useSelector<AppRootStateType, string>(state => state.login.responseError)
 
     if (isLoggedIn) {
         return <Redirect to={"/profile"}/>
     }
 
     const setUserData = () => {
-        dispatch(loginTC({email, password, rememberMe}))
+        if(email === "" || password === "") {
+            setError("Enter email and password")
+        }else {
+            dispatch(loginTC({email, password, rememberMe}))
+        }
+
     }
     const onSetUpEmail = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.currentTarget.value)
@@ -48,6 +55,7 @@ export const Login = () => {
                     <div className={style.forgotPassword}>
                         <input type={"checkbox"} checked={rememberMe} onChange={onSetUpRememberMe}/>RememberMe
                     </div>
+                    <span className={style.formError}>{error ? error : responseError}</span>
                     <div>
                         <button className={style.loginButton} onClick={setUserData}>Login</button>
                     </div>

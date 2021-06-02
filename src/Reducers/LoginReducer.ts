@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {LoginType, projectAPI, ResponseType} from "../api/projectAPI";
-import {setResponseError} from "./registrationReducer";
+import {setResponseError} from "./RegistrationReducer";
 
 
 export const initialState = {
@@ -17,7 +17,8 @@ export const initialState = {
         verified: false,
         rememberMe: false,
         error: ""
-    }
+    },
+    responseError: ""
 }
 
 export const loginReducer = (state: InitialStateLoginType = initialState, action: ActionType): InitialStateLoginType => {
@@ -26,6 +27,8 @@ export const loginReducer = (state: InitialStateLoginType = initialState, action
             return {...state, isLoggedIn: action.value}
         case "LOGIN/SET-DATA":
             return {...state, dataLogin: action.data}
+        case "LOGIN/SET-RESPONSE-ERROR":
+            return {...state, responseError: action.responseError}
         default:
             return state
     }
@@ -36,6 +39,8 @@ export const setLoginDataAC = (value: boolean) =>
     ({type: "LOGIN/SET-LOGIN-DATA", value} as const)
 export const setDataResponseAC = (data: ResponseType) =>
     ({type: "LOGIN/SET-DATA", data} as const)
+export const setResponseErrorAC = (responseError: string) =>
+    ({type: "LOGIN/SET-RESPONSE-ERROR", responseError} as const)
 
 //Thunks
 export const loginTC = (data: LoginType) => (dispatch: Dispatch) => {
@@ -53,6 +58,7 @@ export const loginTC = (data: LoginType) => (dispatch: Dispatch) => {
 export type ActionType =
     ReturnType<typeof setLoginDataAC>
     | ReturnType<typeof setDataResponseAC>
+    | ReturnType<typeof setResponseErrorAC>
 
 export type InitialStateLoginType = typeof initialState
 

@@ -23,6 +23,11 @@ export type RegistrationDataType = {
     email: string
     password: string
 }
+export type PasswordRecoveryDataType = {
+    email: string,
+    from: string,
+    message: string
+}
 
 // Settings
 const instance = axios.create({
@@ -38,6 +43,9 @@ export const projectAPI = {
     },
     registration(data: RegistrationDataType) {
         return instance.post('auth/register', data)
+    },
+    passwordRecovery(recoveryData: PasswordRecoveryDataType) {
+        return instance.post('auth/forgot', recoveryData)
     }
 }
 

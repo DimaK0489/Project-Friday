@@ -3,13 +3,12 @@ import style from './Registartion.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/Store";
 import {Redirect} from "react-router-dom";
-import {registrationTC, setResponseError} from "../../Reducers/registrationReducer";
+import {registrationTC, setResponseError} from "../../Reducers/RegistrationReducer";
 import {PATH} from "../../App/App";
 
 export const Registration = () => {
     const isRegistration = useSelector<AppRootStateType, boolean>(state => state.registration.isRegistration)
     const responseError = useSelector<AppRootStateType, string>(state => state.registration.responseError)
-    console.log(responseError);
 
     const dispatch = useDispatch();
     let [email, setEmail] = useState<string>('')
@@ -24,7 +23,6 @@ export const Registration = () => {
         setPassword(event.currentTarget.value)
     }
     const onChangeConfirmPassword = (event: ChangeEvent<HTMLInputElement>) => {
-        debugger
         setConfirmPassword(event.currentTarget.value)
     }
     const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
