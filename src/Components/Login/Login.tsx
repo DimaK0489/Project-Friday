@@ -10,6 +10,7 @@ export const Login = () => {
     const [password, setPassword] = useState("")
     const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState("")
+    const [typePassword, setTypePassword] = useState<string>('password')
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
@@ -36,6 +37,13 @@ export const Login = () => {
     const onSetUpRememberMe = (event: ChangeEvent<HTMLInputElement>) => {
         setRememberMe(event.currentTarget.checked)
     }
+    const onClickTypePassword = () => {
+        if (typePassword === 'password') {
+            setTypePassword('text')
+        } else if (typePassword === 'text') {
+            setTypePassword('password')
+        }
+    }
     return (
         <div className={style.main}>
             <div className={style.mainBlock}>
@@ -51,6 +59,7 @@ export const Login = () => {
                     </div>
                     <div className={style.formInput}>
                         <input type="password" placeholder='Enter your password' onChange={onSetUpPassword}/>
+                        <span className={style.photoEye} onClick={onClickTypePassword}></span>
                     </div>
                     <div className={style.forgotPassword}>
                         <input type={"checkbox"} checked={rememberMe} onChange={onSetUpRememberMe}/>RememberMe
