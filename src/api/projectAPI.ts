@@ -18,6 +18,7 @@ export type ResponseType = {
     verified: boolean;
     rememberMe: boolean;
     error: string;
+    token: string
 }
 export type RegistrationDataType = {
     email: string
@@ -27,6 +28,23 @@ export type PasswordRecoveryDataType = {
     email: string,
     from: string,
     message: string
+}
+export type ErrorDataType = {
+    response: {
+        data: ErrorRegistration
+    }
+}
+type ErrorRegistration = {
+    emailRegExp: {},
+    error: string
+    in: string
+    isEmailValid: boolean
+    isPassValid: boolean
+    passwordRegExp: string
+}
+export type newPasswordTCType = {
+    newPassword: string
+    token: string
 }
 
 // Settings
@@ -46,6 +64,26 @@ export const projectAPI = {
     },
     passwordRecovery(recoveryData: PasswordRecoveryDataType) {
         return instance.post('auth/forgot', recoveryData)
+    },
+    logout() {
+        return instance.delete('auth/me',{})
+    },
+    isAuth() {
+        return instance.post('auth/me')
+    },
+    setNewPassword(data: any) {
+        return instance.post('auth/set-new-password', data)
+    }
+}
+export const cardsPackAPI = {
+    getCardsPack(min: number = 3, max: number = 9, page: number = 1, pageCount: number = 10) {
+        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=0updated`)
+    },
+    createCardsPack(cardsPack: any) {
+        return instance.post('cards/pack', cardsPack);
+    },
+    deleteCardsPack(packsId: string) {
+        return instance.delete(`cards/pack?id=${packsId}`)
     }
 }
 

@@ -1,59 +1,52 @@
-import { Dispatch } from "redux";
-import {projectAPI, RegistrationDataType} from "../api/projectAPI";
+import {Dispatch} from "redux";
+import {ErrorDataType, projectAPI, RegistrationDataType} from "../api/projectAPI";
+import {setAppStatusAC} from "./App_reducer";
 
 export enum AUTH_ACTIONS_TYPE {
-	SET_REGISTRATION_DATA = "SET_REGISTRATION_DATA",
-	SET_RESPONSE_ERROR = "SET_RESPONSE_ERROR"
+    SET_REGISTRATION_DATA = "SET_REGISTRATION_DATA",
+    SET_RESPONSE_ERROR = "SET_RESPONSE_ERROR"
 }
 
 let initialState = {
-	isRegistration: false,
-	responseError: ''
+    isRegistration: false,
+    responseError: ''
 }
 
 type InitialStateType = typeof initialState;
 
-export const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-	switch (action.type) {
-		case AUTH_ACTIONS_TYPE.SET_REGISTRATION_DATA:
-			return { ...state, isRegistration: action.isRegistration }
-		case AUTH_ACTIONS_TYPE.SET_RESPONSE_ERROR:
-			return { ...state, responseError: action.responseError }
-		default:
-			return { ...state };
-	}
+export const registrationReducer = (state: InitialStateType = initialState, action: RegistrationReducerActionsType): InitialStateType => {
+    switch (action.type) {
+        case AUTH_ACTIONS_TYPE.SET_REGISTRATION_DATA:
+            return {...state, isRegistration: action.isRegistration}
+        case AUTH_ACTIONS_TYPE.SET_RESPONSE_ERROR:
+            return {...state, responseError: action.responseError}
+        default:
+            return {...state};
+    }
 }
 
 // Actions
 export const setRegistrationData = (isRegistration: boolean) =>
-	({ type: AUTH_ACTIONS_TYPE.SET_REGISTRATION_DATA, isRegistration } as const)
+    ({type: AUTH_ACTIONS_TYPE.SET_REGISTRATION_DATA, isRegistration} as const)
 export const setResponseError = (responseError: string) =>
-	({ type: AUTH_ACTIONS_TYPE.SET_RESPONSE_ERROR, responseError } as const)
+    ({type: AUTH_ACTIONS_TYPE.SET_RESPONSE_ERROR, responseError} as const)
 
 //Thunks
 export const registrationTC = (data: RegistrationDataType) => (dispatch: Dispatch) => {
-	projectAPI.registration(data).then(res => {
-		dispatch(setRegistrationData(true))
-	}).catch((error: ErrorDataType) => {
-		dispatch(setResponseError(error.response.data.error))
-	})
+    dispatch(setAppStatusAC('loading'))
+    projectAPI.registration(data)
+        .then(res => {
+            dispatch(setRegistrationData(true))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch((error: ErrorDataType) => {
+            dispatch(setResponseError(error.response.data.error))
+            dispatch(setAppStatusAC('succeeded'))
+        })
 }
 
-type ActionsType =
-	ReturnType<typeof setRegistrationData> |
-	ReturnType<typeof setResponseError>
+export type RegistrationReducerActionsType =
+    ReturnType<typeof setRegistrationData> |
+    ReturnType<typeof setResponseError>
 
-type ErrorDataType = {
-	response: {
-		data: ErrorRegistration
-	}
-}
 
-type ErrorRegistration = {
-	emailRegExp: {},
-	error: string
-	in: string
-	isEmailValid: boolean
-	isPassValid: boolean
-	passwordRegExp: string
-}

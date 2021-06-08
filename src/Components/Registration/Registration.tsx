@@ -7,14 +7,15 @@ import {registrationTC, setResponseError} from "../../Reducers/RegistrationReduc
 import {PATH} from "../../App/App";
 
 export const Registration = () => {
+    const dispatch = useDispatch();
     const isRegistration = useSelector<AppRootStateType, boolean>(state => state.registration.isRegistration)
     const responseError = useSelector<AppRootStateType, string>(state => state.registration.responseError)
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
-    const dispatch = useDispatch();
-    let [email, setEmail] = useState<string>('')
-    let [password, setPassword] = useState<string>('')
-    let [confirmPassword, setConfirmPassword] = useState<string>('')
-    let [error, setError] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [confirmPassword, setConfirmPassword] = useState<string>('')
+    const [error, setError] = useState<string>('')
     const [typePassword, setTypePassword] = useState<string>('password')
     const [typeConfirmPassword, setTypeConfirmPassword] = useState<string>('password')
 
@@ -50,10 +51,10 @@ export const Registration = () => {
 
     const setRegistrationData = () => {
         if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-            setError('Неверный логин')
-        } else if (!/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/i.test(password)) {
-            setError('Неверный пароль')
-        } else {
+            setError('Incorrect password')
+        } /*else if (!/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/i.test(password)) {
+            setError('Incorrect password')
+        }*/ else {
             if (password === confirmPassword) {
                 dispatch(registrationTC({ email, password }))
                 setEmail('')
@@ -63,7 +64,7 @@ export const Registration = () => {
             } else {
                 setPassword('')
                 setConfirmPassword('')
-                setError('Пароль не совпадает')
+                setError('Password does not match')
             }
         }
     }
@@ -77,6 +78,9 @@ export const Registration = () => {
 
     if (isRegistration) {
         return <Redirect to={PATH.login} />
+    }
+    if (isAuth) {
+        return <Redirect to={PATH.profile} />
     }
     return (
         <div className={style.main}>
@@ -93,11 +97,11 @@ export const Registration = () => {
                     </div>
                     <div className={`${style.formInput}`}>
                         <input type={typePassword} placeholder='Enter your password' value={password} onChange={onChangePassword} />
-                        <span className={style.photoEye} onClick={onClickTypePassword}></span>
+                        <span className={style.photoEye} onClick={onClickTypePassword}/>
                     </div>
                     <div className={`${style.formInput} ${style.formInputLastChild}`}>
                         <input type={typeConfirmPassword} placeholder='Confirm your password' value={confirmPassword} onKeyPress={onKeyPressHandler} onChange={onChangeConfirmPassword} />
-                        <span className={style.photoEye} onClick={onClickTypeConfirmPassword}></span>
+                        <span className={style.photoEye} onClick={onClickTypeConfirmPassword}/>
                         <span className={style.formError}>{error ? error : responseError ? responseError : ''}</span>
                     </div>
                     <div className={style.flexButtons}>
@@ -109,10 +113,7 @@ export const Registration = () => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
     );
 }

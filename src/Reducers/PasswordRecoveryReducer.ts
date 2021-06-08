@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
-import {PasswordRecoveryDataType, projectAPI} from "../api/projectAPI";
+import {ErrorDataType, newPasswordTCType, PasswordRecoveryDataType, projectAPI} from "../api/projectAPI";
+import {setAppStatusAC} from "./App_reducer";
 
 export enum RECOVERY_ACTIONS_TYPE {
     SET_RECOVERY_FLAG = "SET_RECOVERY_DATA",
@@ -13,7 +14,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState;
 
-export const passwordRecoveryReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const passwordRecoveryReducer = (state: InitialStateType = initialState, action: PasswordRecoveryReducerActionsType): InitialStateType => {
     switch (action.type) {
         case RECOVERY_ACTIONS_TYPE.SET_RECOVERY_FLAG:
             return {...state, isRecovery: action.isRecovery}
@@ -27,35 +28,36 @@ export const passwordRecoveryReducer = (state: InitialStateType = initialState, 
 // Actions
 export const setRecoveryFlagAC = (isRecovery: boolean) =>
     ({type: RECOVERY_ACTIONS_TYPE.SET_RECOVERY_FLAG, isRecovery} as const)
-export const setResponseErrorAC = (responseError: string) =>
+export const setResponseErrorPassword = (responseError: string) =>
     ({type: RECOVERY_ACTIONS_TYPE.SET_RESPONSE_ERROR, responseError} as const)
 
 //Thunks
 export const passwordRecoveryTC = (recoveryData: PasswordRecoveryDataType) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     projectAPI.passwordRecovery(recoveryData)
         .then(res => {
             dispatch(setRecoveryFlagAC(true))
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch((error: ErrorDataType) => {
-            dispatch(setResponseErrorAC(error.response.data.error))
+            dispatch(setResponseErrorPassword(error.response.data.error))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+}
+export const setNewPasswordTC = (data: newPasswordTCType) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    projectAPI.setNewPassword(data)
+        .then(res => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch((error: ErrorDataType) => {
+            dispatch(setResponseErrorPassword(error.response.data.error))
+            dispatch(setAppStatusAC('succeeded'))
         })
 }
 // Types
-type ActionsType =
+export type PasswordRecoveryReducerActionsType =
     ReturnType<typeof setRecoveryFlagAC> |
-    ReturnType<typeof setResponseErrorAC>
+    ReturnType<typeof setResponseErrorPassword>
 
-type ErrorDataType = {
-    response: {
-        data: ErrorRegistration
-    }
-}
 
-type ErrorRegistration = {
-    emailRegExp: {},
-    error: string
-    in: string
-    isEmailValid: boolean
-    isPassValid: boolean
-    passwordRegExp: string
-}

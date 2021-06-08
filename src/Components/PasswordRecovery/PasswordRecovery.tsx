@@ -2,35 +2,39 @@ import React, {ChangeEvent, useState} from 'react'
 import style from "./PasswordRecovery.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/Store";
-import {passwordRecoveryTC} from "../../Reducers/PasswordRecoveryReducer";
+import {passwordRecoveryTC, setResponseErrorPassword} from "../../Reducers/PasswordRecoveryReducer";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../App/App";
 
 export const PasswordRecovery = () => {
     const dispatch = useDispatch()
     const isRecovery = useSelector<AppRootStateType, boolean>(state => state.passwordRecovery.isRecovery)
     const responseError = useSelector<AppRootStateType, string>(state => state.passwordRecovery.responseError)
 
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState<string>("")
+    const [isRedirect, setRedirect] = useState<boolean>(false)
 
     const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
+        dispatch(setResponseErrorPassword(""))
     }
     const onSendEmail = () => {
         const recoveryData = {
             email: email,
             from: 'test-front-admin <ai73a@yandex.by>)',
             message: `<div style="background-color: lime; padding: 15px"> 
-                        password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
+                        password recovery link: <a href='https://dimak0489.github.io/Project-Friday/#//newPassword/$token$'>link</a>
                       </div>`
         }
         dispatch(passwordRecoveryTC(recoveryData))
     }
     if (isRecovery) {
-        return (<Redirect to={PATH.newPassword}/>)
+        return (<Redirect to={'/newPassword'} />)
     }
     const onRedirectToLogin = () => {
-        return (<Redirect to={PATH.login}/>)
+        setRedirect(true)
+    }
+    if (isRedirect) {
+        return (<Redirect to={'/login'} />)
     }
 
     return (
@@ -45,7 +49,7 @@ export const PasswordRecovery = () => {
                 <div className={style.form}>
                     <div className={style.formInput}>
                         <input type="email" placeholder='Enter your email' onChange={onChangeEmail} value={email}/>
-                        <span className={style.formError}>{responseError && responseError}</span>
+                        <span className={style.formError}>{responseError}</span>
                     </div>
                     <p className={style.textAfterInput}>
                         Enter your email address and we will send you further instructions

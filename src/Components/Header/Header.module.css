@@ -1,12 +1,15 @@
-.header {
+.navigation {
     display: flex;
-    flex-flow: row nowrap;
-    height: 100%;
-    background-color: #4da02a;
+    justify-content: space-between;
 }
-.loginBlock {
-    display: flex;
-    flex-direction: column;
+.item a {
+    text-decoration: none;
+    color: blue;
+    padding: 0 5px;
 }
+.item a.activeLink {
+    color: red;
+}
+
 
 
