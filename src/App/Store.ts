@@ -1,11 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware, { ThunkAction } from "redux-thunk";
-import {loginReducer, LoginReducerActionType} from "../Reducers/LoginReducer";
-import {registrationReducer, RegistrationReducerActionsType} from "../Reducers/RegistrationReducer";
-import {passwordRecoveryReducer, PasswordRecoveryReducerActionsType} from "../Reducers/PasswordRecoveryReducer";
+import {loginReducer, LoginReducerActionType} from "../Components/Login/LoginReducer";
+import {registrationReducer, RegistrationReducerActionsType} from "../Components/Registration/RegistrationReducer";
+import {passwordRecoveryReducer, PasswordRecoveryReducerActionsType} from "../Components/PasswordRecovery/PasswordRecoveryReducer";
 import {authReducer, ProfileActionsType} from '../Reducers/AuthReducer';
-import {appReducer, AppReducerActionType} from "../Reducers/App_reducer";
-import {CardsPackActionType, cardsReducer } from '../Reducers/CardsReducer';
+import {appReducer, AppReducerActionType} from "./App_reducer";
+import {CardsPackActionType, packsReducer} from "../Components/Pack/packsReducer";
+import {cardsReducer} from "../Components/Cards/CardsReducer";
+
 
 const  rootReducer = combineReducers({
     login: loginReducer,
@@ -13,6 +15,7 @@ const  rootReducer = combineReducers({
     passwordRecovery: passwordRecoveryReducer,
     app: appReducer,
     isAuth: authReducer,
+    packs: packsReducer,
     cards: cardsReducer
 })
 

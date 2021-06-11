@@ -1,5 +1,7 @@
 .app {
   background: linear-gradient(180deg, #e6d4de 0%, #9890c7 100%);
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 .navBar {

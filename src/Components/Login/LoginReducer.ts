@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {ErrorDataType, LoginType, projectAPI, ResponseType} from "../api/projectAPI";
-import {setAppStatusAC} from "./App_reducer";
+import {ErrorDataType, LoginType, projectAPI, ResponseType} from "../../api/projectAPI";
+import {setAppStatusAC} from "../../App/App_reducer";
 
 export const initialState = {
     isLoggedIn: false,

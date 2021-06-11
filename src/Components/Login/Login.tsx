@@ -3,7 +3,8 @@ import style from './Login.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from 'react-router-dom';
 import {AppRootStateType} from "../../App/Store";
-import {loginTC, setResponseErrorAC} from "../../Reducers/LoginReducer";
+import {loginTC, setResponseErrorAC} from "./LoginReducer";
+import {PATH} from "../../App/App";
 
 export const Login = () => {
     const [email, setEmail] = useState("")
@@ -16,7 +17,7 @@ export const Login = () => {
     const responseError = useSelector<AppRootStateType, string>(state => state.login.responseError)
 
     if (isLoggedIn) {
-        return <Redirect to={"/profile"}/>
+        return <Redirect to={PATH.profile}/>
     }
 
     const setUserData = () => {

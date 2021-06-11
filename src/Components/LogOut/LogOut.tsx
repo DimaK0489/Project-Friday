@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react'
 import {useDispatch} from 'react-redux'
 import style from './LogOut.module.css'
-import {logoutTC} from "../../Reducers/LoginReducer";
+import {logoutTC} from "../Login/LoginReducer";
 
 
 export const LogOut= () => {

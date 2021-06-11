@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
-import {setDataResponseAC, setLoginDataAC, setResponseErrorAC, setResponseTokenAC} from "./LoginReducer";
+import {setDataResponseAC, setLoginDataAC, setResponseErrorAC, setResponseTokenAC} from "../Components/Login/LoginReducer";
 import {ErrorDataType, projectAPI} from "../api/projectAPI";
-import {setAppStatusAC} from "./App_reducer";
+import {setAppStatusAC} from "../App/App_reducer";
 
 export enum ACTION_TYPES {
     IS_AUTH = "IS_AUTH"

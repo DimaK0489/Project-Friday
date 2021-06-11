@@ -23,6 +23,9 @@ export const Header = () => {
             <div className={style.item}>
                 <NavLink to={`/pack/`} activeClassName={style.activeLink}>Pack</NavLink>
             </div>
+            <div className={style.item}>
+                <NavLink to={`/cards`} activeClassName={style.activeLink}>Cards</NavLink>
+            </div>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import style from './Registartion.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/Store";
 import {Redirect} from "react-router-dom";
-import {registrationTC, setResponseError} from "../../Reducers/RegistrationReducer";
+import {registrationTC, setResponseError} from "./RegistrationReducer";
 import {PATH} from "../../App/App";
 
 export const Registration = () => {

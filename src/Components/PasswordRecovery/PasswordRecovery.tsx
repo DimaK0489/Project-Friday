@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react'
 import style from "./PasswordRecovery.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/Store";
-import {passwordRecoveryTC, setResponseErrorPassword} from "../../Reducers/PasswordRecoveryReducer";
+import {passwordRecoveryTC, setResponseErrorPassword} from "./PasswordRecoveryReducer";
 import {Redirect} from "react-router-dom";
 
 export const PasswordRecovery = () => {

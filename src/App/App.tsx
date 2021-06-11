@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import style from './App.module.css';
 import {Login} from "../Components/Login/Login";
 import {Registration} from '../Components/Registration/Registration';
@@ -11,7 +11,7 @@ import {Preloader} from "../Components/common/Preloder/preloder";
 import {useSelector} from 'react-redux';
 import {AppRootStateType} from "./Store";
 import {Pack} from '../Components/Pack/Packs';
-import { Error404 } from '../Components/Pages/Error404';
+import {Cards} from "../Components/Cards/Cards";
 
 export const PATH = {
     login: '/login',
@@ -20,8 +20,8 @@ export const PATH = {
     Error404: '/404',
     passwordRecovery: '/passwordRecovery',
     newPassword: '/newPassword',
-    test: '/test',
-    pack: '/pack'
+    pack: '/pack',
+    cards: '/cards'
 }
 
 export const App = () => {
@@ -37,8 +37,9 @@ export const App = () => {
                 <Route path={PATH.newPassword} render={() => <NewPassword/>}/>
                 <Route path={PATH.profile} render={() => <Profile/>}/>
                 <Route path={PATH.pack} render={() => <Pack />} />
-                <Route path={PATH.Error404} render={() => <Error404/>}/>
-                <Redirect from={'*'} to={'/404'}/>
+                <Route path={PATH.cards} render={() => <Cards />} />
+                {/*<Route path={PATH.Error404} render={() => <Error404/>}/>
+                <Redirect from={'*'} to={'/404'}/>*/}
             </Switch>
         </div>
     );

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react'
 import style from './NewPassword.module.css';
 import {useDispatch} from "react-redux";
 import {useParams} from 'react-router-dom';
-import {setNewPasswordTC, setRecoveryFlagAC} from "../../Reducers/PasswordRecoveryReducer";
+import {setNewPasswordTC, setRecoveryFlagAC} from "../PasswordRecovery/PasswordRecoveryReducer";
 
 export const NewPassword = () => {
     const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {ErrorDataType, projectAPI, RegistrationDataType} from "../api/projectAPI";
-import {setAppStatusAC} from "./App_reducer";
+import {ErrorDataType, projectAPI, RegistrationDataType} from "../../api/projectAPI";
+import {setAppStatusAC} from "../../App/App_reducer";
 
 export enum AUTH_ACTIONS_TYPE {
     SET_REGISTRATION_DATA = "SET_REGISTRATION_DATA",

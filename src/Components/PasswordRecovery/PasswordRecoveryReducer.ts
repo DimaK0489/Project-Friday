@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {ErrorDataType, newPasswordTCType, PasswordRecoveryDataType, projectAPI} from "../api/projectAPI";
-import {setAppStatusAC} from "./App_reducer";
+import {ErrorDataType, newPasswordTCType, PasswordRecoveryDataType, projectAPI} from "../../api/projectAPI";
+import {setAppStatusAC} from "../../App/App_reducer";
 
 export enum RECOVERY_ACTIONS_TYPE {
     SET_RECOVERY_FLAG = "SET_RECOVERY_DATA",
