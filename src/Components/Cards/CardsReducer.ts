@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import { setAppStatusAC } from "../../App/App_reducer";
-import {cardsPackAPI} from "../../api/projectAPI";
-
+import {cardsPackAPI, CardType} from "../../api/projectAPI";
+import {AppThunk} from "../../App/Store";
 
 export enum ACTION_TYPES {
     GET_CARDS = "GET_CARDS"
@@ -35,7 +35,7 @@ export type CardsActionType = ReturnType<typeof getCardsAC>
 export const cardsReducer = (state: InitialStateCards = initialState, action: CardsActionType): InitialStateCards => {
     switch (action.type) {
         case ACTION_TYPES.GET_CARDS:
-            return {...state, cards: action.data.cards }
+            return {...state, ...action.data, cards: action.data.cards.map(card => ({ ...card })) }
         default:
             return state
     }
@@ -49,6 +49,28 @@ export const getCardsTC = (cardsPack_id: string) => (dispatch: Dispatch) => {
     cardsPackAPI.getCards(cardsPack_id)
         .then(res => {
             dispatch(getCardsAC(res.data))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
+}
+export const createCardTC = (card: CardType, cardsPack_id: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    cardsPackAPI.createCard(card)
+        .then(res => {
+            dispatch(getCardsTC(cardsPack_id))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
+}
+export const deleteCardTC = (cardId: string, cardsPack_id: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    cardsPackAPI.deleteCard(cardId)
+        .then(res => {
+            dispatch(getCardsTC(cardsPack_id))
             dispatch(setAppStatusAC('succeeded'))
         })
         .catch(err => {

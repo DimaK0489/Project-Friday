@@ -6,7 +6,8 @@ import {passwordRecoveryReducer, PasswordRecoveryReducerActionsType} from "../Co
 import {authReducer, ProfileActionsType} from '../Reducers/AuthReducer';
 import {appReducer, AppReducerActionType} from "./App_reducer";
 import {CardsPackActionType, packsReducer} from "../Components/Pack/packsReducer";
-import {cardsReducer} from "../Components/Cards/CardsReducer";
+import {CardsActionType, cardsReducer} from "../Components/Cards/CardsReducer";
+import {SearchActionType} from "../Components/Search/searchReducer";
 
 
 const  rootReducer = combineReducers({
@@ -22,6 +23,13 @@ const  rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppThunk = ThunkAction<void, AppRootStateType, unknown, AppActionType>
-type AppActionType = AppReducerActionType | ProfileActionsType | CardsPackActionType | LoginReducerActionType | PasswordRecoveryReducerActionsType | RegistrationReducerActionsType;
+type AppActionType = AppReducerActionType
+    | ProfileActionsType
+    | CardsPackActionType
+    | LoginReducerActionType
+    | PasswordRecoveryReducerActionsType
+    | RegistrationReducerActionsType
+    | CardsActionType
+    | SearchActionType
 
 export default store;

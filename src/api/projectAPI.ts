@@ -46,6 +46,21 @@ export type newPasswordTCType = {
     newPassword: string
     token: string
 }
+export type CardType = {
+    card: {
+        cardsPack_id: string
+        question?: string
+        answer?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+}
 
 // Settings
 const instance = axios.create({
@@ -87,6 +102,12 @@ export const cardsPackAPI = {
     },
     getCards(cardsPack_id: string) {
         return instance.get(`cards/card?cardsPack_id=${cardsPack_id}`)
-    }
+    },
+    createCard(card: CardType) {
+        return instance.post(`cards/card`, card)
+    },
+    deleteCard(cardsPack_id: string) {
+        return instance.delete(`cards/card?id=${cardsPack_id}`)
+    },
 }
 
