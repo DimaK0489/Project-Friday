@@ -1,10 +1,7 @@
 import React, {ChangeEvent, useCallback, useState} from 'react'
 import style from './Search.module.css'
 import {useDispatch} from 'react-redux'
-import {setSearchValueAC} from "./searchReducer";
-import {getCardsPackTC} from "../Pack/packsReducer";
-
-
+import {getCardsPackTC, setSearchNameAC} from "../Pack/packsReducer";
 
 export const Search = () => {
     const dispatch = useDispatch()
@@ -16,9 +13,8 @@ export const Search = () => {
     }
 
     const onSubmit = useCallback(() => {
-        dispatch(setSearchValueAC(inputValue))
-        dispatch(getCardsPackTC())
-        setInputValue('')
+        inputValue ? dispatch(setSearchNameAC(inputValue)) : dispatch(getCardsPackTC())
+        setInputValue("")
     }, [dispatch, inputValue])
 
     return (

@@ -3,10 +3,13 @@ import {setAppStatusAC} from '../../App/App_reducer';
 import {cardsPackAPI, CardsPackUpdateType} from "../../api/projectAPI";
 import {Dispatch} from "redux";
 
-export type CardsPackActionType = ReturnType<typeof getAllCardsPackAC>
+export type CardsPackActionType =
+    ReturnType<typeof getAllCardsPackAC>
+    | ReturnType<typeof setSearchNameAC>
 
 export enum ACTION_TYPES {
-    GET_PACKS_PACK = 'GET_PACKS_PACK'
+    GET_PACKS_PACK = 'GET_PACKS_PACK',
+    SET_SEARCH_PACK_NAME = 'SET_SEARCH_PACK_NAME'
 }
 
 const initialState = {
@@ -36,12 +39,15 @@ export const packsReducer = (state: initialCardsStateType = initialState, action
             return {
                 ...state, cardPacks: action.data.cardPacks.map(pack => ({...pack}))
             }
+        case ACTION_TYPES.SET_SEARCH_PACK_NAME:
+            return {...state, cardPacks: state.cardPacks.filter(card => card.name === action.name)}
         default:
             return state
     }
 }
 //Action
-export const getAllCardsPackAC = (data: initialCardsStateType) => ({type: ACTION_TYPES.GET_PACKS_PACK, data})
+export const getAllCardsPackAC = (data: initialCardsStateType) => ({type: ACTION_TYPES.GET_PACKS_PACK, data}as const)
+export const setSearchNameAC = (name: string) => ({type: ACTION_TYPES.SET_SEARCH_PACK_NAME, name}as const)
 //Thunk
 export const getCardsPackTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
