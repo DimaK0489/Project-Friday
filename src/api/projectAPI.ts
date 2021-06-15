@@ -61,6 +61,35 @@ export type CardType = {
         type?: string
     }
 }
+export type UpdateCardType = {
+    card: {
+        answer?: string,
+        question?: string,
+        cardsPack_id?: string,
+        grade?: string,
+        shots?: number,
+        user_id?: string,
+        created?: string,
+        updated?: string,
+        _id: string
+    }
+}
+export type CardsPackUpdateType = {
+    cardsPack: {
+        _id: string
+        user_id?: string
+        name?: string
+        path?: string
+        cardsCount?: number
+        grade?: number
+        shots?: number
+        rating?: number
+        type?: string
+        created?: string
+        updated?: string
+        __v?: number
+    }
+}
 
 // Settings
 const instance = axios.create({
@@ -100,8 +129,11 @@ export const cardsPackAPI = {
     deleteCardsPack(packsId: string) {
         return instance.delete(`cards/pack?id=${packsId}`)
     },
+    updatePack(cardsPack: CardsPackUpdateType) {
+        return instance.put(`cards/pack`, cardsPack)
+    },
     getCards(cardsPack_id: string) {
-        return instance.get(`cards/card?cardsPack_id=${cardsPack_id}`)
+        return instance.get(`cards/card?cardsPack_id=${cardsPack_id}&pageCount=20`)
     },
     createCard(card: CardType) {
         return instance.post(`cards/card`, card)
@@ -109,5 +141,8 @@ export const cardsPackAPI = {
     deleteCard(cardsPack_id: string) {
         return instance.delete(`cards/card?id=${cardsPack_id}`)
     },
+    updateCard(card: UpdateCardType) {
+        return instance.put(`cards/card`, card)
+    }
 }
 

@@ -5,7 +5,8 @@ import {OnePack} from './OnePack/OnePack';
 import {Search} from "../Search/Search";
 import {AppRootStateType} from "../../App/Store";
 import {Range} from "../common/Range/Range";
-import {createCardsPackTC, deleteCardsPackTC, getCardsPackTC, initialCardsStateType} from "./packsReducer";
+import {createCardsPackTC,deleteCardsPackTC,getCardsPackTC,initialCardsStateType, updateCardsPackTC
+} from "./packsReducer";
 
 export const Pack = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,14 @@ export const Pack = () => {
     const onClickDeletePack = useCallback((packId: string) => {
         dispatch(deleteCardsPackTC(packId))
     }, [cardsFromState])
-
+    const onClickUpdatePack = useCallback( (packId: string) => {
+        dispatch(updateCardsPackTC( {
+            cardsPack: {
+                _id: packId,
+                name: 'New Name'
+            }
+        }))
+    }, [cardsFromState])
 
     const allPacks = cardsFromState.cardPacks.map(pack => <OnePack
             packId={pack._id}
@@ -40,6 +48,7 @@ export const Pack = () => {
             cardsCount={pack.cardsCount}
             updated={pack.updated}
             onClickDeletePack={onClickDeletePack}
+            onClickUpdatePack={onClickUpdatePack}
         />
     )
 

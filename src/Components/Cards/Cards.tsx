@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import style from "./Cards.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {createCardTC, deleteCardTC, getCardsTC, InitialStateCards} from "./CardsReducer";
+import {createCardTC, deleteCardTC, getCardsTC, InitialStateCards, updateCardTC} from "./CardsReducer";
 import {Search} from "../Search/Search";
 import {AppRootStateType} from "../../App/Store";
 import {Range} from "../common/Range/Range";
@@ -12,18 +12,21 @@ export const Cards = () => {
     const dispatch = useDispatch()
     const allCards = useSelector<AppRootStateType, InitialStateCards>(state => state.cards)
 
-    const {cardsPack_id} = useParams<{cardsPack_id: string}>()
+    const {cardsPack_id} = useParams<{ cardsPack_id: string }>()
     useEffect(() => {
         dispatch(getCardsTC(cardsPack_id))
     }, [dispatch, cardsPack_id])
 
     const onClickCreateCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        dispatch(createCardTC( {
+        dispatch(createCardTC({
             card: {cardsPack_id}
-        },cardsPack_id))
+        }, cardsPack_id))
     }
     const onClickDeleteCard = (cardId: string) => {
         dispatch(deleteCardTC(cardId, cardsPack_id))
+    }
+    const onClickUpdateCard = (cardId: string) => {
+        dispatch(updateCardTC({card: {_id: cardId, question: "new question"}}, cardsPack_id))
     }
     return (
         <div className={style.main}>
@@ -49,25 +52,10 @@ export const Cards = () => {
                             question={c.question}
                             created={c.created}
                             deleteCard={onClickDeleteCard}
-                             />
+                            updateCard={onClickUpdateCard}/>
                     ))}
-                    <div>
-                        <button>delete</button>
-                        <button>update</button>
-                    </div>
                 </div>
             </div>
-
-            {/*<div className={style.paginator}> Paginator
-                <select>
-                    <option value={"4"}>4</option>
-                    <option value={"7"}>7</option>
-                    <option value={"10"}>10</option>
-                    <option value={"20"}>20</option>
-                    <option value={"50"}>50</option>
-                </select>
-                <button>Click</button>
-            </div>*/}
         </div>
     );
 }

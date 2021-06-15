@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import { setAppStatusAC } from "../../App/App_reducer";
-import {cardsPackAPI, CardType} from "../../api/projectAPI";
+import {cardsPackAPI, CardType, UpdateCardType} from "../../api/projectAPI";
 import {AppThunk} from "../../App/Store";
 
 export enum ACTION_TYPES {
@@ -69,6 +69,17 @@ export const createCardTC = (card: CardType, cardsPack_id: string): AppThunk => 
 export const deleteCardTC = (cardId: string, cardsPack_id: string): AppThunk => dispatch => {
     dispatch(setAppStatusAC('loading'))
     cardsPackAPI.deleteCard(cardId)
+        .then(res => {
+            dispatch(getCardsTC(cardsPack_id))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
+}
+export const updateCardTC = (card: UpdateCardType, cardsPack_id: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    cardsPackAPI.updateCard(card)
         .then(res => {
             dispatch(getCardsTC(cardsPack_id))
             dispatch(setAppStatusAC('succeeded'))
