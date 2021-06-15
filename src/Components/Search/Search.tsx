@@ -13,7 +13,7 @@ export const Search = () => {
     }
 
     const onSubmit = useCallback(() => {
-        inputValue ? dispatch(setSearchNameAC(inputValue)) : dispatch(getCardsPackTC())
+        inputValue ? dispatch(setSearchNameAC(inputValue)) : dispatch(getCardsPackTC(5))
         setInputValue("")
     }, [dispatch, inputValue])
 

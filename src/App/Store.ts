@@ -7,8 +7,6 @@ import {authReducer, ProfileActionsType} from '../Reducers/AuthReducer';
 import {appReducer, AppReducerActionType} from "./App_reducer";
 import {CardsPackActionType, packsReducer} from "../Components/Pack/packsReducer";
 import {CardsActionType, cardsReducer} from "../Components/Cards/CardsReducer";
-import {SearchActionType} from "../Components/Search/searchReducer";
-
 
 const  rootReducer = combineReducers({
     login: loginReducer,
@@ -30,6 +28,5 @@ type AppActionType = AppReducerActionType
     | PasswordRecoveryReducerActionsType
     | RegistrationReducerActionsType
     | CardsActionType
-    | SearchActionType
 
 export default store;

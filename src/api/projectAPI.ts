@@ -74,6 +74,18 @@ export type UpdateCardType = {
         _id: string
     }
 }
+export type CardsPackCreateType = {
+    cardsPack: {
+        name?: string
+        path?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        deckCover?: string
+        private?: false
+        type?: string
+    }
+}
 export type CardsPackUpdateType = {
     cardsPack: {
         _id: string
@@ -120,7 +132,7 @@ export const projectAPI = {
     }
 }
 export const cardsPackAPI = {
-    getCardsPack(min: number = 3, max: number = 9, page: number = 1, pageCount: number = 10) {
+    getCardsPack(page: number = 1, pageCount: number = 10) {
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=0updated`)
     },
     createCardsPack(cardsPack: any) {

@@ -1,36 +1,33 @@
-import React, {useState} from "react";
-import style from './Paginator.module.css'
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {Pagination} from "@material-ui/lab";
 
-export type PaginatorPropsType = {
-    pageSize: number
-    totalPacks: number
-    onPageChanged: (p: number) => void
-    currentPage: number
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+}));
+
+type BasicPaginationPropsType = {
+    cardPacksTotalCount: number
+    page: number
+    onChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
 }
 
-export const Paginator = (props: PaginatorPropsType) => {
-    const pagesCount = Math.ceil(props.totalPacks / props.pageSize);
-    const pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-    const [portionPages, setPortionPages] = useState<number>(1);
-    const leftPortionPageNumber = (portionPages - 1) * props.pageSize + 1;
-    const rightPortionPageNumber = portionPages * props.pageSize
-
+export function BasicPagination(props: BasicPaginationPropsType) {
+    const classes = useStyles();
     return (
-        <div className={style.cursor}>
-            {portionPages > 1 && <button onClick={() => setPortionPages(portionPages - 1)}>Prev</button>}
-            {pages
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map((p) => {
-                // @ts-ignore
-                    return <span className={props.currentPage === p && style.selectedPage}
-                             onClick={(e) => { props.onPageChanged(p)}}>{p}</span>
-            })}
-            {pagesCount > portionPages && <button onClick={() => setPortionPages(portionPages + 1)}>Next</button>}
+        <div className={classes.root}>
+            <Pagination count={20}
+                        color="secondary"
+                        page={props.page}
+                        onChange={props.onChange}
+            />
         </div>
-    )
+    );
 }
+
 
 

@@ -7,14 +7,17 @@ import {AppRootStateType} from "../../App/Store";
 import {Range} from "../common/Range/Range";
 import {createCardsPackTC,deleteCardsPackTC,getCardsPackTC,initialCardsStateType, updateCardsPackTC
 } from "./packsReducer";
+import {BasicPagination} from "../common/Paginator/Paginator";
 
 export const Pack = () => {
     const dispatch = useDispatch();
     const cardsFromState = useSelector<AppRootStateType, initialCardsStateType>(state => state.packs);
+    const cardPacksTotalCount = useSelector<AppRootStateType, number>( state => state.packs.cardPacksTotalCount)
+    const cardsPage = useSelector<AppRootStateType, number>( state => state.packs.page)
     const [titlePacks, setTitlePacks] = useState('');
 
     useEffect(() => {
-        dispatch(getCardsPackTC())
+        dispatch(getCardsPackTC(cardsPage))
     }, [dispatch])
 
 
@@ -27,20 +30,20 @@ export const Pack = () => {
     }
 
     const onClickCreateCardsPack = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        dispatch(createCardsPackTC({cardsPack}));
+        dispatch(createCardsPackTC({cardsPack}, cardsPage));
         setTitlePacks('')
     }
     const onClickDeletePack = useCallback((packId: string) => {
-        dispatch(deleteCardsPackTC(packId))
+        dispatch(deleteCardsPackTC(packId, cardsPage))
     }, [cardsFromState])
     const onClickUpdatePack = useCallback( (packId: string) => {
         dispatch(updateCardsPackTC( {
-            cardsPack: {
-                _id: packId,
-                name: 'New Name'
-            }
-        }))
+            cardsPack: {_id: packId,name: 'New Name'}},cardsPage))
     }, [cardsFromState])
+
+    const changePagePaginator = (event: React.ChangeEvent<unknown>, page: number) => {
+        dispatch(getCardsPackTC(page))
+    }
 
     const allPacks = cardsFromState.cardPacks.map(pack => <OnePack
             packId={pack._id}
@@ -69,6 +72,7 @@ export const Pack = () => {
                 </div>
             </div>
             <div>{allPacks}</div>
+            <BasicPagination page={cardsPage} cardPacksTotalCount={cardPacksTotalCount} onChange={changePagePaginator} />
         </div>
     )
 }
