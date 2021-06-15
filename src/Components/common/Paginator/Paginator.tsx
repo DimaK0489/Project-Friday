@@ -18,9 +18,11 @@ type BasicPaginationPropsType = {
 
 export function BasicPagination(props: BasicPaginationPropsType) {
     const classes = useStyles();
+    const count = Math.ceil(props.cardPacksTotalCount/10)
+
     return (
         <div className={classes.root}>
-            <Pagination count={20}
+            <Pagination count={count}
                         color="secondary"
                         page={props.page}
                         onChange={props.onChange}

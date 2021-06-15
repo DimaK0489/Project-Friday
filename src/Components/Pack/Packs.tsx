@@ -5,19 +5,19 @@ import {OnePack} from './OnePack/OnePack';
 import {Search} from "../Search/Search";
 import {AppRootStateType} from "../../App/Store";
 import {Range} from "../common/Range/Range";
-import {createCardsPackTC,deleteCardsPackTC,getCardsPackTC,initialCardsStateType, updateCardsPackTC
+import {createCardsPackTC,deleteCardsPackTC,getCardsPackTC,InitialCardsStateType, updateCardsPackTC
 } from "./packsReducer";
 import {BasicPagination} from "../common/Paginator/Paginator";
 
 export const Pack = () => {
     const dispatch = useDispatch();
-    const cardsFromState = useSelector<AppRootStateType, initialCardsStateType>(state => state.packs);
+    const cardsFromState = useSelector<AppRootStateType, InitialCardsStateType>(state => state.packs);
     const cardPacksTotalCount = useSelector<AppRootStateType, number>( state => state.packs.cardPacksTotalCount)
-    const cardsPage = useSelector<AppRootStateType, number>( state => state.packs.page)
+    const cardsPackPage = useSelector<AppRootStateType, number>( state => state.packs.page)
     const [titlePacks, setTitlePacks] = useState('');
 
     useEffect(() => {
-        dispatch(getCardsPackTC(cardsPage))
+        dispatch(getCardsPackTC(cardsPackPage))
     }, [dispatch])
 
 
@@ -30,17 +30,16 @@ export const Pack = () => {
     }
 
     const onClickCreateCardsPack = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        dispatch(createCardsPackTC({cardsPack}, cardsPage));
+        dispatch(createCardsPackTC({cardsPack}, cardsPackPage));
         setTitlePacks('')
     }
     const onClickDeletePack = useCallback((packId: string) => {
-        dispatch(deleteCardsPackTC(packId, cardsPage))
+        dispatch(deleteCardsPackTC(packId, cardsPackPage))
     }, [cardsFromState])
     const onClickUpdatePack = useCallback( (packId: string) => {
         dispatch(updateCardsPackTC( {
-            cardsPack: {_id: packId,name: 'New Name'}},cardsPage))
+            cardsPack: {_id: packId,name: 'New Name'}},cardsPackPage))
     }, [cardsFromState])
-
     const changePagePaginator = (event: React.ChangeEvent<unknown>, page: number) => {
         dispatch(getCardsPackTC(page))
     }
@@ -72,7 +71,7 @@ export const Pack = () => {
                 </div>
             </div>
             <div>{allPacks}</div>
-            <BasicPagination page={cardsPage} cardPacksTotalCount={cardPacksTotalCount} onChange={changePagePaginator} />
+            <BasicPagination page={cardsPackPage} cardPacksTotalCount={cardPacksTotalCount} onChange={changePagePaginator} />
         </div>
     )
 }

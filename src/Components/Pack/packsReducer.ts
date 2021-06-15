@@ -30,15 +30,13 @@ const initialState = {
     pageCount: 0
 }
 
-export type initialCardsStateType = typeof initialState;
+export type InitialCardsStateType = typeof initialState;
 
 //Reducer
-export const packsReducer = (state: initialCardsStateType = initialState, action: CardsPackActionType): initialCardsStateType => {
+export const packsReducer = (state: InitialCardsStateType = initialState, action: CardsPackActionType): InitialCardsStateType => {
     switch (action.type) {
         case ACTION_TYPES.GET_PACKS_PACK:
-            return {
-                ...state, cardPacks: action.data.cardPacks.map(pack => ({...pack}))
-            }
+            return action.data
         case ACTION_TYPES.SET_SEARCH_PACK_NAME:
             return {...state, cardPacks: state.cardPacks.filter(card => card.name === action.name)}
         default:
@@ -46,12 +44,12 @@ export const packsReducer = (state: initialCardsStateType = initialState, action
     }
 }
 //Action
-export const getAllCardsPackAC = (data: initialCardsStateType) => ({type: ACTION_TYPES.GET_PACKS_PACK, data} as const)
+export const getAllCardsPackAC = (data: InitialCardsStateType) => ({type: ACTION_TYPES.GET_PACKS_PACK, data} as const)
 export const setSearchNameAC = (name: string) => ({type: ACTION_TYPES.SET_SEARCH_PACK_NAME, name} as const)
 //Thunk
 export const getCardsPackTC = (page: number) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    cardsPackAPI.getCardsPack(page, 10)
+    cardsPackAPI.getCardsPack(page, 8)
         .then(res => {
             dispatch(getAllCardsPackAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
@@ -75,12 +73,14 @@ export const createCardsPackTC = (cardsPack: CardsPackCreateType, page: number):
 
 export const deleteCardsPackTC = (packsId: string, page: number): AppThunk => dispatch => {
     dispatch(setAppStatusAC('loading'))
-    cardsPackAPI.deleteCardsPack(packsId).then(res => {
-        dispatch(getCardsPackTC(page))
-        dispatch(setAppStatusAC('succeeded'))
-    }).catch(err => {
-        dispatch(setAppStatusAC('succeeded'))
-    })
+    cardsPackAPI.deleteCardsPack(packsId)
+        .then(res => {
+            dispatch(getCardsPackTC(page))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
 }
 
 export const updateCardsPackTC = (cardsPack: CardsPackUpdateType, page: number): AppThunk => dispatch => {
